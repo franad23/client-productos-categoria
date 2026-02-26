@@ -4,6 +4,7 @@ import RegisterPage from "./pages/register"
 import HomePage from "./pages/home"
 import ProtectedRoutes from "./pages/protectedRoutes"
 import AdminPage from "./pages/admin"
+import CategoriesPage from "./pages/categories"
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
         <Route path="/register" element={<RegisterPage/>}/>
         <Route element={<ProtectedRoutes/>}>
           <Route path="/admin" element={<AdminPage/>}/>
+          <Route path="/categories" element={<CategoriesPage/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

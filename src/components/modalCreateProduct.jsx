@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { axiosClient } from '../helpers/axiosClient';
 
 function ModalCreateProduct() {
+  const [ categories, setCategories ] = useState([]);
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -10,12 +12,24 @@ function ModalCreateProduct() {
 
   function handleCreateProduct(e) {
     e.preventDefault();
-        const form = e.target;
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData);
-        console.log(data);
+    const form = e.target;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData);
+    console.log(data);
   }
-
+  
+  async function getCategories(){
+      try {
+          const response = await axiosClient.get('/categories');
+          console.log('EJECUTADO')
+          setCategories(response.data.data);
+      } catch (error) {
+          
+      }
+  }
+  useEffect(() => {
+      getCategories();
+  }, []);
   return (
     <>
       <Button variant="primary" onClick={handleShow}>
@@ -35,14 +49,19 @@ function ModalCreateProduct() {
                 <label >Stock:</label>
                 <input type="number" name='stock'/>
                 <select name="category">
-                    <option value="ID">CAT 1</option>
+                    <option disabled selected>Seleccionar Categoria</option>
+                    {
+                      categories.map((category) => (
+                        <option key={category._id} value={category._id}>{category.name}</option>
+                      ))
+                    }
                 </select>
-          <Button variant="secondary" onClick={handleClose}>
-            Cerrar
-          </Button>
-          <Button variant="primary" type='submit' onClick={handleClose}>
-            Crear
-          </Button>
+                <Button variant="secondary" onClick={handleClose}>
+                  Cerrar
+                </Button>
+                <Button variant="primary" type='submit' onClick={handleClose}>
+                  Crear
+                </Button>
             </form>
         </Modal.Body>
       </Modal>
