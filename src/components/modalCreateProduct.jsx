@@ -3,33 +3,40 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { axiosClient } from '../helpers/axiosClient';
 
-function ModalCreateProduct() {
+function ModalCreateProduct({ getProducts }) {
   const [ categories, setCategories ] = useState([]);
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  function handleCreateProduct(e) {
-    e.preventDefault();
-    const form = e.target;
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData);
-    console.log(data);
+  async function handleCreateProduct(e) {
+    try {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData);
+      const userData = JSON.parse(localStorage.getItem('auth'));
+      data.createdBy = userData.user.id;
+      await axiosClient.post('/products', data);
+      getProducts();
+    } catch (error) {
+      
+    }
   }
-  
-  async function getCategories(){
-      try {
-          const response = await axiosClient.get('/categories');
-          console.log('EJECUTADO')
-          setCategories(response.data.data);
-      } catch (error) {
-          
-      }
-  }
+
   useEffect(() => {
-      getCategories();
+    async function getCategories(){
+        try {
+            const response = await axiosClient.get('/categories');
+            setCategories(response.data.data);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    getCategories();
   }, []);
+
   return (
     <>
       <Button variant="primary" onClick={handleShow}>
