@@ -5,6 +5,7 @@ import HomePage from "./pages/home"
 import ProtectedRoutes from "./pages/protectedRoutes"
 import AdminPage from "./pages/admin"
 import CategoriesPage from "./pages/categories"
+import UploadImagesPage from "./pages/uploadImages"
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         <Route element={<ProtectedRoutes/>}>
           <Route path="/admin" element={<AdminPage/>}/>
           <Route path="/categories" element={<CategoriesPage/>}/>
+          <Route path="/images" element={<UploadImagesPage/>}/>
         </Route>
       </Routes>
     </BrowserRouter>
