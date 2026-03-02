@@ -1,9 +1,10 @@
 import axios from "axios";
+import { API_URL } from "../config/env";
 
 const axiosClient = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: `${API_URL}/api`,
   headers: {
-    Authorization: JSON.parse(localStorage.getItem("auth")).token,
+    Authorization: JSON.parse(localStorage.getItem("auth"))?.token,
   },
 });
 

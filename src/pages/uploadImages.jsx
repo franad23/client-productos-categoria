@@ -3,18 +3,18 @@ import { axiosClient } from "../helpers/axiosClient";
 import { toast } from "sonner";
 
 function UploadImagesPage() {
-    const [file, setFile ] = useState(null);
+    const [ file, setFile ] = useState(null);
     async function uploadImage(e) {
         try {
             e.preventDefault();
-        const formData = new FormData();
-        formData.append('file', file);
-        const response =  await axiosClient.post('/images/upload', formData, {
+            const formData = new FormData();
+            formData.append('file', file);
+            const response =  await axiosClient.post('/images/upload', formData, {
             headers: {
                 "Content-Type": "multipart/form-data"
             }
-        });
-        toast.success(response.data.message);
+            });
+            toast.success(response.data.message);
         } catch (error) {
             toast.error(error.response.data.message)
         }

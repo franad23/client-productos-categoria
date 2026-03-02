@@ -26,3 +26,4 @@ dist-ssr
 Dockerfile
 .devcontainer
 docker-compose.yml
+.env
